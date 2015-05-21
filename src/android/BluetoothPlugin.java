@@ -48,6 +48,7 @@ public class BluetoothPlugin extends CordovaPlugin
 	private static final String ACTION_GET_UUIDS		= "getUuids";
 
 	private static final String ACTION_IS_CONNECTED		= "isConnected";
+	private static final String ACTION_LISTEN			= "listen";
 	private static final String ACTION_IS_READING		= "isConnectionManaged";
 	private static final String ACTION_CONNECT 			= "connect";
 	private static final String ACTION_DISCONNECT 		= "disconnect";
@@ -81,6 +82,11 @@ public class BluetoothPlugin extends CordovaPlugin
 	 * Callback context for the asynchronous connection attempt.
 	 */
 	private CallbackContext _connectCallback;
+	/**
+	* Callback context for asynchronous connections incoming to the device.
+	*/
+	
+	private CallbackContext _acceptCallback;
 
 	/**
 	 * Callback context for the asynchronous (and continuous) read operation.
@@ -196,8 +202,11 @@ public class BluetoothPlugin extends CordovaPlugin
 		{
 			write(args, callbackCtx);
 		}
-		else
+		else if(ACTION_LISTEN.equals(action))
 		{
+			listen(args, callbackCtx);
+		}
+		else{
 			Log.e(LOG_TAG, "Invalid Action[" + action + "]");
 			callbackCtx.sendPluginResult(new PluginResult(PluginResult.Status.INVALID_ACTION));
 		}
@@ -209,6 +218,7 @@ public class BluetoothPlugin extends CordovaPlugin
 	 * Send an error to given CallbackContext containing the error code and message.
 	 *
 	 * @param ctx	Where to send the error.
+	 * @param msg	What seems to be the problem.
 	 * @param msg	What seems to be the problem.
 	 * @param code	Integer value as a an error "code"
 	 */
@@ -538,6 +548,24 @@ public class BluetoothPlugin extends CordovaPlugin
 			this.error(callbackCtx, e.getMessage(), BluetoothError.ERR_UNKNOWN);
 		}
 	}
+	/**
+	+ Listen for a new connection
+	*/
+	private void listen(JSONArray args, CallbackContext callbackCtx){
+		boolean isListening 	= _bluetooth.isListening();
+		boolean isConnected		= _bluetooth.isConnected();
+		if(isListening){
+			this.error(callbackCtx, "There is already a server listening", BluetoothError.ERR_LISTENING_IN_PROGRESS);	
+		}
+		if(isConnected){
+			this.error(callbackCtx, "There is already a connection in progress.", BluetoothError.ERR_CONNECTION_ALREADY_EXISTS);
+		}
+		_bluetooth.listen();
+		PluginResult result = new PluginResult(PluginResult.Status.NO_RESULT);
+		result.setKeepCallback(true);
+		callbackCtx.sendPluginResult(result);
+		_acceptCallback = callbackCtx;
+	}
 
 	/**
 	 * Attempt to connect to a device.
@@ -574,10 +602,9 @@ public class BluetoothPlugin extends CordovaPlugin
 				}
 
 				String address 		= args.getString(0);
-				String uuid			= args.getString(1);
-				String connTypeStr	= args.getString(2);
+				String connTypeStr	= args.getString(1);
 
-				_bluetooth.connect(address, uuid, connTypeStr);
+				_bluetooth.connect(address, connTypeStr);
 
 				PluginResult result = new PluginResult(PluginResult.Status.NO_RESULT);
 				result.setKeepCallback(true);
@@ -899,7 +926,17 @@ public class BluetoothPlugin extends CordovaPlugin
 					}
 
 					break;
-
+				case BluetoothWrapper.MSG_CONNECTION_INCOMING:
+					if(_acceptCallback !=null){
+						_acceptCallback.success();
+						_acceptCallback = null;
+						
+					}
+					else
+					{
+						Log.e(LOG_TAG, "CallbackContext for accept doesn't exist.");
+					}
+					break;
 				case BluetoothWrapper.MSG_CONNECTION_FAILED:
 
 					String error = msg.getData().getString(BluetoothWrapper.DATA_ERROR);

@@ -23,4 +23,5 @@ public class BluetoothError
 	public static final int ERR_BLUETOOTH_LOST					= 12;
 	public static final int ERR_MANAGED_CONNECTION_LOST			= 13;
 	public static final int ERR_DISCONNECTED					= 14;
+	public static final int ERR_LISTENING_IN_PROGRESS			= 15;
 }

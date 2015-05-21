@@ -10,7 +10,8 @@ var Bluetooth = function()
 {
     this.platforms = [ "android" ];
 };
-
+// APP UUID 
+Bluetooth.prototype.APP_UUID=undefined;
 /**
  * Check if the API is supported on this platform. Requires the
  * cordova-plugin-device to function on PhoneGap 3.0.0 onwards.
@@ -190,7 +191,13 @@ Bluetooth.prototype.stopDiscovery = function(onSuccess, onError)
 {
     exec(onSuccess, onError, "Bluetooth", "stopDiscovery", []);
 }
-
+/**
+ * Listen to other Bluetooth devices 
+ */
+Bluetooth.prototype.listen = function(onSuccess, onError, opts)
+{
+		exec(onSuccess, onError, "Bluetooth", "listen", []);
+}
 /**
  * Check if the device at given address is paired with this device.
  *

@@ -45,14 +45,17 @@ import android.util.Log;
 public class BluetoothWrapper
 {
 	private static final String LOG_TAG = "BluetoothWrapper";
+	private static final UUID APP_UUID = UUID.fromString("f75cb8d7-da5b-4512-b787-75204382471a");//UUID for receive connections
+	private static final String APP_NAME = "Bluetooth Plugin";//Name for SDP record
 
 	public static final int MSG_DISCOVERY_STARTED		= 0;
 	public static final int MSG_DISCOVERY_FINISHED		= 1;
 	public static final int MSG_DEVICE_FOUND			= 2;
 	public static final int MSG_CONNECTION_ESTABLISHED	= 3;
 	public static final int MSG_CONNECTION_FAILED		= 4;
-	public static final int MSG_CONNECTION_STOPPED		= 5;
-	public static final int MSG_CONNECTION_LOST			= 6;
+	public static final int MSG_CONNECTION_INCOMING     = 5;
+	public static final int MSG_CONNECTION_STOPPED		= 6;
+	public static final int MSG_CONNECTION_LOST			= 7;
 	public static final int MSG_READ					= 8;
 	public static final int MSG_BLUETOOTH_LOST			= 9;
 	public static final int MSG_UUIDS_FOUND				= 10;
@@ -94,6 +97,11 @@ public class BluetoothWrapper
 	 * read/write operations.
 	 */
 	private ConnectionManager 	_connectionManager;
+	
+	/**
+	 * Thread for accepting incoming connections
+	 */
+	private AcceptThread _accept;
 
 	/**
 	 * Enumeration for various types of connections we can attempt.
@@ -198,7 +206,15 @@ public class BluetoothWrapper
 			throw e;
 		}
 	}
-
+	
+	public void listen(){
+		_accept = new AcceptThread();
+		_accept.start();
+	}
+	
+	public boolean isListening(){
+		_accept!= null ? return true: return false;
+	}
 
 	/**
 	 * Disable Bluetooth without direct user consent.
@@ -488,14 +504,15 @@ public class BluetoothWrapper
 	 * @see ConnectionAttempt
 	 * @see ConnectionManager
 	 */
-	public void connect(String address, String uuidStr, String connTypeStr) throws Exception
+	public void connect(String address, String connTypeStr) throws Exception
 	{
 		try
 		{
 			BluetoothDevice device 		= _adapter.getRemoteDevice(address);
-			UUID uuid					= UUID.fromString(uuidStr);
+			UUID uuid					= UUID.fromString(APP_UUID);
 			EConnectionType connType 	= EConnectionType.valueOf(connTypeStr);
-
+			_accept.cancel();
+			
 			_connectionAttempt = new ConnectionAttempt(device, uuid, connType);
 			_connectionAttempt.execute();
 		}
@@ -750,7 +767,7 @@ public class BluetoothWrapper
 	 * Attempts a connection at the specified device. Sets the private field <b>_socket</b>
 	 * for BluetoothWrapper on successful connection attempt.
 	 *
-	 * @see AsyncTask
+	 * @see AsyncTaskAsyncTask
 	 * @see BluetoothWrapper
 	 * @see BluetoothSocket
 	 */
@@ -1005,6 +1022,52 @@ public class BluetoothWrapper
 		public void kill()
 		{
 			_isAlive = false;
+		}
+	}
+	public class AcceptThread extends Thread {
+		private BluetoothServerSocket mServerSocket;
+		private BluetoothSocket mBluetoothSocket = null;
+		private Handler mHandler = _handler;
+		private BluetoothAdapter mBluetoothAdapter = _adapter;
+
+		public AcceptThread() {
+			try {
+					mServerSocket = mBluetoothAdapter.listenInsecureUsingRfcommWithServiceRecord(APP_SDPNAME,APP_UUID);
+			} catch (IOException e) {
+				Log.e(LOG_TAG, "Failed to open serverSocket: " + e.getMessage());
+			}
+		}
+
+		public void run() {
+			while (true) {
+				try {
+					mBluetoothSocket = mServerSocket.accept();
+					manageConnectedSocket();
+					mServerSocket.close();
+					break;
+				} catch (IOException e1) {
+					if (mBluetoothSocket != null) {
+						try {
+							mServerSocket.close();
+						} catch (IOException e2) {
+							Log.e(LOG_TAG, "Failed to close serverSocket: " + e2.getMessage());
+						}
+					}
+				}
+			}
+		}
+		private void manageConnectedSocket() {
+			_socket = mBluetoothSocket;
+			mHandler.obtainMessage(BluetoothWrapper.MSG_CONNECTION_INCOMING).sendToTarget();
+		}
+
+		public void cancel() {
+			try {
+				if (null != mServerSocket)
+					mServerSocket.close();
+			} catch (IOException e) {
+				Log.e(LOG_TAG, "Failed to close serverSocket: " + e.getMessage());
+			}
 		}
 	}
 }
