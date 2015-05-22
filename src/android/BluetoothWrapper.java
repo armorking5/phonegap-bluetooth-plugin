@@ -1065,7 +1065,6 @@ public class BluetoothWrapper
 			Message msg = _handler.obtainMessage(BluetoothWrapper.MSG_CONNECTION_INCOMING);
 			msg.setData(bundle);
 			msg.sendToTarget();
-			obtainMessage(BluetoothWrapper.MSG_CONNECTION_INCOMING).sendToTarget();
 		}
 
 		public void cancel() {
