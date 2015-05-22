@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
 	id="com.phonegap.plugins.bluetooth"
 	version="0.9">
 
@@ -25,6 +26,7 @@
 		<config-file target="AndroidManifest.xml" parent="/manifest">
     		<uses-permission android:name="android.permission.BLUETOOTH" />
     		<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+			<uses-sdk android:minSdkVersion="14"/>
 		</config-file>
 
 		<js-module src="www/bluetooth.js" name="bluetooth">

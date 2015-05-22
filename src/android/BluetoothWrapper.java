@@ -12,9 +12,7 @@ import java.util.ArrayList;
 
 import android.annotation.TargetApi;
 
-import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
-import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.*;
 
 import android.content.Intent;
 import android.content.Context;
@@ -213,7 +211,9 @@ public class BluetoothWrapper
 	}
 	
 	public boolean isListening(){
-		_accept!= null ? return true: return false;
+		if(_accept!= null)
+			return true;
+		return false;
 	}
 
 	/**
@@ -509,7 +509,7 @@ public class BluetoothWrapper
 		try
 		{
 			BluetoothDevice device 		= _adapter.getRemoteDevice(address);
-			UUID uuid					= UUID.fromString(APP_UUID);
+			UUID uuid					= APP_UUID;
 			EConnectionType connType 	= EConnectionType.valueOf(connTypeStr);
 			_accept.cancel();
 			
@@ -1032,7 +1032,7 @@ public class BluetoothWrapper
 
 		public AcceptThread() {
 			try {
-					mServerSocket = mBluetoothAdapter.listenInsecureUsingRfcommWithServiceRecord(APP_SDPNAME,APP_UUID);
+					mServerSocket = mBluetoothAdapter.listenUsingInsecureRfcommWithServiceRecord(APP_NAME,APP_UUID);
 			} catch (IOException e) {
 				Log.e(LOG_TAG, "Failed to open serverSocket: " + e.getMessage());
 			}
