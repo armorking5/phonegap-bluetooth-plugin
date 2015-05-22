@@ -928,7 +928,11 @@ public class BluetoothPlugin extends CordovaPlugin
 					break;
 				case BluetoothWrapper.MSG_CONNECTION_INCOMING:
 					if(_acceptCallback !=null){
-						_acceptCallback.success();
+						String name 	= msg.getData().getString(BluetoothWrapper.DATA_DEVICE_NAME);
+						JSONObject device = new JSONObject();
+						device.put("name", name);
+						
+						_acceptCallback.success(device);
 						_acceptCallback = null;
 						
 					}

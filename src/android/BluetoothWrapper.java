@@ -1058,7 +1058,14 @@ public class BluetoothWrapper
 		}
 		private void manageConnectedSocket() {
 			_socket = mBluetoothSocket;
-			mHandler.obtainMessage(BluetoothWrapper.MSG_CONNECTION_INCOMING).sendToTarget();
+			BluetoothDevice device = mBluetoothSocket.getRemoteDevice();
+			Bundle bundle = new Bundle();
+			bundle.putString(DATA_DEVICE_NAME, device.getName());
+
+			Message msg = _handler.obtainMessage(BluetoothWrapper.MSG_CONNECTION_INCOMING);
+			msg.setData(bundle);
+			msg.sendToTarget();
+			obtainMessage(BluetoothWrapper.MSG_CONNECTION_INCOMING).sendToTarget();
 		}
 
 		public void cancel() {
