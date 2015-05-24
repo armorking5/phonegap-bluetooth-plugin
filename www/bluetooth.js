@@ -343,7 +343,7 @@ Bluetooth.prototype.connect = function(onSuccess, onError, opts)
 {
     var conn = (typeof opts.conn === "undefined") ? "Secure" : opts.conn;
 
-    exec(onSuccess, onError, "Bluetooth", "connect", [opts.address, opts.uuid, conn]);
+    exec(onSuccess, onError, "Bluetooth", "connect", [opts.address, conn]);
 }
 
 /**
