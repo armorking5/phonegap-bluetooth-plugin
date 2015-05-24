@@ -600,8 +600,9 @@ public class BluetoothPlugin extends CordovaPlugin
 						this.error(_discoveryCallback, "Discovery stopped because a connection attempt was started.", BluetoothError.ERR_DISCOVERY_CANCELED);
 					}
 				}
-
+				
 				String address 		= args.getString(0);
+				Log.i("address: "+address+"  conn: "+connTypeStr);
 				String connTypeStr	= args.getString(1);
 
 				_bluetooth.connect(address, connTypeStr);
