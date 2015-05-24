@@ -602,9 +602,8 @@ public class BluetoothPlugin extends CordovaPlugin
 				}
 				
 				String address 		= args.getString(0);
-				Log.i("address: "+address+"  conn: "+connTypeStr);
 				String connTypeStr	= args.getString(1);
-
+				Log.i("BTLOG","address: "+address+"  conn: "+connTypeStr);
 				_bluetooth.connect(address, connTypeStr);
 
 				PluginResult result = new PluginResult(PluginResult.Status.NO_RESULT);
