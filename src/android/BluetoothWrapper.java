@@ -512,7 +512,8 @@ public class BluetoothWrapper
 			UUID uuid					= APP_UUID;
 			EConnectionType connType 	= EConnectionType.valueOf(connTypeStr);
 			Log.i("BTLOG","device: "+device.getName()+"  conn: "+connType+" uuid: "+uuid);
-			_accept.cancel();
+			if(_accept!=null)
+				_accept.cancel();
 			
 			_connectionAttempt = new ConnectionAttempt(device, uuid, connType);
 			_connectionAttempt.execute();
