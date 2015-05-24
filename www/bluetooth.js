@@ -341,8 +341,9 @@ Bluetooth.prototype.isConnectionManaged = function(onSuccess, onError)
  */
 Bluetooth.prototype.connect = function(onSuccess, onError, opts)
 {
+	console.log("address: "+opts.address);
+	console.log("conn: "+opts.conn);
     var conn = (typeof opts.conn === "undefined") ? "Secure" : opts.conn;
-
     exec(onSuccess, onError, "Bluetooth", "connect", [opts.address, conn]);
 }
 
