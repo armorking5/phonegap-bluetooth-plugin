@@ -407,8 +407,8 @@ Bluetooth.prototype.stopConnectionManager = function(onSuccess, onError)
  */
 Bluetooth.prototype.write = function(onSuccess, onError, data)
 {
-    encoding = "UTF-8";
-    forceString = false;
+    var encoding = "UTF-8";
+    var forceString = false;
 	console.log("data: "+data);
     exec(onSuccess, onError, "Bluetooth", "write", [data, encoding, forceString]);
 }
