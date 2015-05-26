@@ -29,7 +29,7 @@ Bluetooth.prototype.isSupported = function()
         }
     }
     return false;
-};
+}
 
 /**
  * Generic success callback for the Bluetooth API. Indicates only that the
@@ -68,7 +68,7 @@ Bluetooth.prototype.isSupported = function()
 Bluetooth.prototype.isEnabled = function(onSuccess, onError)
 {
     exec(onSuccess, onError, "Bluetooth", "isEnabled", []);
-};
+}
 
 /**
  * Enable Bluetooth on the device.
@@ -81,7 +81,7 @@ Bluetooth.prototype.isEnabled = function(onSuccess, onError)
 Bluetooth.prototype.enable = function(onSuccess, onError)
 {
     exec(onSuccess, onError, "Bluetooth", "enable", []);
-};
+}
 
 /**
  * Disable Bluetooth on the device.
@@ -94,7 +94,7 @@ Bluetooth.prototype.enable = function(onSuccess, onError)
 Bluetooth.prototype.disable = function(onSuccess, onError)
 {
     exec(onSuccess, onError, "Bluetooth", "disable", []);
-};
+}
 
 /**
  * Check if the device is in the process of discovering devices.
@@ -107,7 +107,7 @@ Bluetooth.prototype.disable = function(onSuccess, onError)
 Bluetooth.prototype.isDiscovering = function(onSuccess, onError)
 {
     exec(onSuccess, onError, "Bluetooth", "isDiscovering", []);
-};
+}
 
 /**
  * Represents a BluetoothDevice with name and address.
@@ -175,7 +175,7 @@ Bluetooth.prototype.startDiscovery = function(onDeviceDiscovered, onDiscoveryFin
         onError(error);
     },
     "Bluetooth", "startDiscovery", []);
-};
+}
 
 /**
  * Stop the device discovery process.
@@ -188,7 +188,7 @@ Bluetooth.prototype.startDiscovery = function(onDeviceDiscovered, onDiscoveryFin
 Bluetooth.prototype.stopDiscovery = function(onSuccess, onError)
 {
     exec(onSuccess, onError, "Bluetooth", "stopDiscovery", []);
-};
+}
 /**
  * Listen to other Bluetooth devices
  * @memberOf Bluetooth
@@ -198,7 +198,7 @@ Bluetooth.prototype.stopDiscovery = function(onSuccess, onError)
 Bluetooth.prototype.listen = function(onSuccess, onError)
 {
 		exec(onSuccess, onError, "Bluetooth", "listen", []);
-};
+}
 /**
  * Check if the device at given address is paired with this device.
  *
@@ -211,7 +211,7 @@ Bluetooth.prototype.listen = function(onSuccess, onError)
 Bluetooth.prototype.isPaired = function(onSuccess, onError, address)
 {
     exec(onSuccess, onError, "Bluetooth", "isPaired", [address]);
-};
+}
 
 /**
  * Invoked when a device is paired with this device.
@@ -233,7 +233,7 @@ Bluetooth.prototype.isPaired = function(onSuccess, onError, address)
 Bluetooth.prototype.pair = function(onSuccess, onError, address)
 {
     exec(onSuccess, onError, "Bluetooth", "pair", [address]);
-};
+}
 
 /**
  * Unpair with the device at given address.
@@ -247,7 +247,7 @@ Bluetooth.prototype.pair = function(onSuccess, onError, address)
 Bluetooth.prototype.unpair = function(onSuccess, onError, address)
 {
     exec(onSuccess, onError, "Bluetooth", "unpair", [address]);
-};
+}
 
 /**
  * Invoked when paired devices are succesfully retrieved.
@@ -268,7 +268,7 @@ Bluetooth.prototype.unpair = function(onSuccess, onError, address)
 Bluetooth.prototype.getPaired = function(onSuccess, onError)
 {
     exec(onSuccess, onError, "Bluetooth", "getPaired", []);
-};
+}
 
 /**
  * Callback for retrieving UUIDs of a given device.
@@ -293,7 +293,7 @@ Bluetooth.prototype.getPaired = function(onSuccess, onError)
 Bluetooth.prototype.getUuids = function(onSuccess, onError, address)
 {
     exec(onSuccess, onError, "Bluetooth", "getUuids", [address]);
-};
+}
 
 /**
  * Check if there is a connection. Please note this does not indicate
@@ -307,7 +307,7 @@ Bluetooth.prototype.getUuids = function(onSuccess, onError, address)
 Bluetooth.prototype.isConnected = function(onSuccess, onError)
 {
     exec(onSuccess, onError, "Bluetooth", "isConnected", []);
-};
+}
 
 /**
  * Check if there is a connection and that it is currently managed.
@@ -325,7 +325,7 @@ Bluetooth.prototype.isConnected = function(onSuccess, onError)
 Bluetooth.prototype.isConnectionManaged = function(onSuccess, onError)
 {
     exec(onSuccess, onError, "Bluetooth", "isConnectionManaged", []);
-};
+}
 
 /**
  * Attempt to connect with another device.
@@ -343,7 +343,7 @@ Bluetooth.prototype.connect = function(onSuccess, onError, opts)
 {
     var conn = (typeof opts.conn === "undefined") ? "Secure" : opts.conn;
     exec(onSuccess, onError, "Bluetooth", "connect", [opts.address, conn]);
-};
+}
 
 /**
  * Disconnect from any current connection.
@@ -356,7 +356,7 @@ Bluetooth.prototype.connect = function(onSuccess, onError, opts)
 Bluetooth.prototype.disconnect = function(onSuccess, onError)
 {
     exec(onSuccess, onError, "Bluetooth", "disconnect", []);
-};
+}
 
 /**
  * Callback for a managed connection to send read data.
@@ -380,7 +380,7 @@ Bluetooth.prototype.disconnect = function(onSuccess, onError)
 Bluetooth.prototype.startConnectionManager = function(onDataRead, onError, encoding)
 {
     exec(onDataRead, onError, "Bluetooth", "startConnectionManager", [encoding || "UTF-8"]);
-};
+}
 
 /**
  * Stop the managed connection. Please note that this does not invoke disconnect,
@@ -394,7 +394,7 @@ Bluetooth.prototype.startConnectionManager = function(onDataRead, onError, encod
 Bluetooth.prototype.stopConnectionManager = function(onSuccess, onError)
 {
     exec(onSuccess, onError, "Bluetooth", "stopConnectionManager", []);
-};
+}
 
 /**
  * Write to the managed connection.
@@ -411,7 +411,7 @@ Bluetooth.prototype.write = function(onSuccess, onError, data)
     var forceString = false;
 	console.log("data: "+data);
     exec(onSuccess, onError, "Bluetooth", "write", [data, encoding, forceString]);
-};
+}
 
 var bluetooth   = new Bluetooth();
 module.exports  = bluetooth;
