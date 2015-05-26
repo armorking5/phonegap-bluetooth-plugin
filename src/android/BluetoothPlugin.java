@@ -720,7 +720,7 @@ public class BluetoothPlugin extends CordovaPlugin
 
 		try
 		{
-			Object data 		= args.get(0);
+			Object data 		= args.getString(0);
 			String encoding 	= args.getString(1);
 			boolean forceString = args.getBoolean(2);
 			Log.d(LOG_TAG, "data: "+data+"\nencoding: "+encoding+"\nforceString: "+(forceString ? "VERO" : "FALSO"));
