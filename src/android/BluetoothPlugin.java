@@ -723,7 +723,7 @@ public class BluetoothPlugin extends CordovaPlugin
 			Object data 		= args.get(0);
 			String encoding 	= args.getString(1);
 			boolean forceString = args.getBoolean(2);
-			Log.d(LOG_TAG, "data: "+data.toString()+"\nencoding: "+encoding.toString()+"\nforceString: "+forceString ? "VERO" : "FALSO");
+			Log.d(LOG_TAG, "data: "+data.toString()+"\nencoding: "+encoding.toString()+"\nforceString: "+(forceString ? "VERO" : "FALSO"));
 			byte[] defaultBytes = new byte[4];
 			ByteBuffer buffer = ByteBuffer.wrap(defaultBytes);
 
