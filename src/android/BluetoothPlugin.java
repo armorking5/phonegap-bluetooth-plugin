@@ -723,25 +723,28 @@ public class BluetoothPlugin extends CordovaPlugin
 			Object data 		= args.get(0);
 			String encoding 	= args.getString(1);
 			boolean forceString = args.getBoolean(2);
-
+			Log.d(LOG_TAG, "data: "+data.toString()+"\nencoding: "+encoding.toString()+"\nforceString: "+forceString ? "VERO" : "FALSO");
 			byte[] defaultBytes = new byte[4];
 			ByteBuffer buffer = ByteBuffer.wrap(defaultBytes);
 
 			if(forceString || data.getClass() == String.class)
 			{
 				String dataString = (String)data;
+				Log.d(LOG_TAG, "STRING");
 				buffer = ByteBuffer.wrap(dataString.getBytes(encoding));
 			}
 			else if(data.getClass().equals(Integer.class))
 			{
 				byte[] bytes = new byte[4];
 				buffer = ByteBuffer.wrap(bytes);
+				Log.d(LOG_TAG, "INTEGER");
 				buffer.putInt((Integer)data);
 			}
 			else if(data.getClass().equals(Double.class))
 			{
 				byte[] bytes = new byte[8];
 				buffer = ByteBuffer.wrap(bytes);
+				Log.d(LOG_TAG, "DOUBLE");
 				buffer.putDouble((Double)data);
 			}
 			else
