@@ -341,8 +341,6 @@ Bluetooth.prototype.isConnectionManaged = function(onSuccess, onError)
  */
 Bluetooth.prototype.connect = function(onSuccess, onError, opts)
 {
-	console.log("address: "+opts.address);
-	console.log("conn: "+opts.conn);
     var conn = (typeof opts.conn === "undefined") ? "Secure" : opts.conn;
     exec(onSuccess, onError, "Bluetooth", "connect", [opts.address, conn]);
 }
@@ -407,11 +405,11 @@ Bluetooth.prototype.stopConnectionManager = function(onSuccess, onError)
  * @param  {Bluetooth~onError}      onError     Invoked if there was an error writing (for example there is no managed connection).
  * @param  {?}                      data        The data to be written to the managed connection.
  */
-Bluetooth.prototype.write = function(onSuccess, onError, data, encoding, forceString)
+Bluetooth.prototype.write = function(onSuccess, onError, data)
 {
-    encoding = encoding || "UTF-8";
-    forceString = forceString || false;
-
+    encoding = "UTF-8";
+    forceString = false;
+	console.log("data: "+data);
     exec(onSuccess, onError, "Bluetooth", "write", [data, encoding, forceString]);
 }
 
