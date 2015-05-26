@@ -42,7 +42,7 @@ import android.util.Log;
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
 public class BluetoothWrapper
 {
-	private static final String LOG_TAG = "BluetoothWrapper";
+	private static final String LOG_TAG = "BTLOG";
 	private static final UUID APP_UUID = UUID.fromString("f75cb8d7-da5b-4512-b787-75204382471a");//UUID for receive connections
 	private static final String APP_NAME = "Bluetooth Plugin";//Name for SDP record
 

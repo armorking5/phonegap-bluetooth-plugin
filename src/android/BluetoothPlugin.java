@@ -30,7 +30,7 @@ import android.annotation.TargetApi;
 @TargetApi(Build.VERSION_CODES.GINGERBREAD)
 public class BluetoothPlugin extends CordovaPlugin
 {
-	private static final String LOG_TAG					= "BluetoothPlugin";
+	private static final String LOG_TAG					= "BTLOG";
 
 	private static final String ACTION_IS_BT_ENABLED 	= "isEnabled";
 	private static final String ACTION_ENABLE_BT		= "enable";
