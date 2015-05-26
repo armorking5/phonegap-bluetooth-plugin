@@ -941,6 +941,7 @@ public class BluetoothWrapper
 
 			_input 	= input;
 			_output = output;
+
 			_isAlive = true;
 		}
 
@@ -964,8 +965,7 @@ public class BluetoothWrapper
 
 					Bundle bundle = new Bundle();
 					bundle.putByteArray(DATA_BYTES, data);
-					String str = new String(data,"UTF-8")
-					Log.i("BTLOG","Letto: "+str);
+
 					Message msg = _handler.obtainMessage(MSG_READ);
 					msg.setData(bundle);
 					msg.sendToTarget();
@@ -1011,8 +1011,6 @@ public class BluetoothWrapper
 			try
 			{
 				_output.write(bytes);
-				String str = new String(data,"UTF-8")
-				Log.i("BTLOG","Scritto: "+str);
 			}
 			catch(IOException e)
 			{
