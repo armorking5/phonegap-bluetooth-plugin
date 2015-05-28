@@ -729,7 +729,7 @@ public class BluetoothPlugin extends CordovaPlugin
 		{
 			Object data 		= args.get(0);
 			String encoding 	= "UTF-8";
-			Log.d(LOG_TAG, "data: "+data));
+			Log.d(LOG_TAG, "data: "+data);
 			byte[] defaultBytes = new byte[4];
 			ByteBuffer buffer = ByteBuffer.wrap(defaultBytes);
 
