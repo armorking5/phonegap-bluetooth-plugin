@@ -57,6 +57,7 @@ public class BluetoothPlugin extends CordovaPlugin
 	private	static final String ACTION_STOP_READING		= "stopConnectionManager";
 
 	private static final String ACTION_WRITE			= "write";
+	private static final String ACTION_WRITEFAKE		= "writefake";
 
 	/**
 	 * Bluetooth interface
@@ -201,6 +202,12 @@ public class BluetoothPlugin extends CordovaPlugin
 		else if(ACTION_WRITE.equals(action))
 		{
 			write(args, callbackCtx);
+		}
+		else if(ACTION_WRITEFAKE.equals(action))
+		{
+			JSONArray arr = new JSONArray();
+			arr.put("Prova!");
+			write(arr,callbackCtx);
 		}
 		else if(ACTION_LISTEN.equals(action))
 		{

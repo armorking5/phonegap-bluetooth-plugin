@@ -411,5 +411,10 @@ Bluetooth.prototype.write = function(onSuccess, onError, data)
     exec(onSuccess, onError, "Bluetooth", "write", [data]);
 }
 
+Bluetooth.prototype.fake = function(onSuccess, onError)
+{
+    exec(onSuccess, onError, "Bluetooth", "writefake",[]);
+}
+
 var bluetooth   = new Bluetooth();
 module.exports  = bluetooth;
