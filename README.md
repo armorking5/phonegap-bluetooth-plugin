@@ -63,3 +63,7 @@ window.bluetooth = cordova.require("cordova/plugin/bluetooth");
 License
 -------
 This plugin is available under MIT. See LICENSE for details.
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/armorking5/phonegap-bluetooth-plugin/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
